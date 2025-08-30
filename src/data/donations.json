@@ -1,0 +1,47 @@
+{
+  "2025-January": [
+    { "name": "John Smith", "amount": 500 },
+    { "name": "Sarah Johnson", "amount": 250 },
+    { "name": "Mike Davis", "amount": 750 }
+  ],
+  "2025-January": [
+    { "name": "John Smith", "amount": 500 },
+    { "name": "Sarah Johnson", "amount": 250 },
+    { "name": "Mike Davis", "amount": 750 }
+  ],
+  "2024-January": [
+    { "name": "John Smith", "amount": 500 },
+    { "name": "Sarah Johnson", "amount": 250 },
+    { "name": "Mike Davis", "amount": 7500000 }
+  ],
+  "2024-February": [
+    { "name": "Emily Brown", "amount": 300 },
+    { "name": "David Wilson", "amount": 450 },
+    { "name": "Lisa Garcia", "amount": 200 }
+  ],
+  "2024-March": [
+    { "name": "Robert Taylor", "amount": 600 },
+    { "name": "Jennifer Lee", "amount": 350 }
+  ],
+  "2023-December": [
+    { "name": "Michael Johnson", "amount": 800 },
+    { "name": "Amanda Davis", "amount": 400 },
+    { "name": "Chris Wilson", "amount": 550 }
+  ],
+  "2023-November": [
+    { "name": "Jessica Brown", "amount": 275 },
+    { "name": "Daniel Miller", "amount": 625 }
+  ],
+  "2022-November": [
+    { "name": "Jessica Brown", "amount": 275 },
+    { "name": "Daniel Miller", "amount": 625 }
+  ],
+  "2021-November": [
+    { "name": "Jessica Brown", "amount": 275 },
+    { "name": "Daniel Miller", "amount": 625 }
+  ],
+  "2020-November": [
+    { "name": "Jessica Brown", "amount": 275 },
+    { "name": "Daniel Miller", "amount": 625 }
+  ]
+}

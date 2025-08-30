@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2024-01-15",
+    "amount": 1200,
+    "description": "Office rent for January - downtown location with utilities included"
+  },
+  {
+    "date": "2024-01-20",
+    "amount": 350,
+    "description": "Office supplies and equipment - computers, printers, stationery"
+  },
+  {
+    "date": "2024-02-01",
+    "amount": 1200,
+    "description": "Office rent for February - same downtown location"
+  },
+  {
+    "date": "2024-02-10",
+    "amount": 800,
+    "description": "Marketing materials and promotional items for community outreach"
+  },
+  {
+    "date": "2024-02-28",
+    "amount": 450,
+    "description": "Utility bills - electricity, internet, and phone services"
+  }
+]
