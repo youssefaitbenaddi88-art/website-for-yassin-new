@@ -338,7 +338,7 @@ function App() {
               >
                 <div className="text-center">
                   <div className="text-4xl md:text-5xl font-bold text-red-500 mb-4 group-hover:scale-110 transition-transform duration-300">
-                    ${getTotalExpenses().toLocaleString()}
+                    {getTotalExpenses().toLocaleString()}<span className="text-2xl md:text-3xl ml-1">mad</span>
                   </div>
                 </div>
                 <div className="absolute inset-0 bg-red-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
@@ -351,7 +351,7 @@ function App() {
               >
                 <div className="text-center">
                   <div className={`text-4xl md:text-5xl font-bold text-green-500 mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    ${getNetAmount().toLocaleString()}
+                    {getNetAmount().toLocaleString()}<span className="text-2xl md:text-3xl ml-1">mad</span>
                   </div>
                 </div>
                 <div className="absolute inset-0 bg-green-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
@@ -438,7 +438,7 @@ function App() {
                       {year}
                     </div>
                     <div className="text-lg font-semibold text-green-500 group-hover:scale-110 transition-transform duration-300">
-                      ${getYearTotal(year).toLocaleString()}
+                      {getYearTotal(year).toLocaleString()}<span className="text-sm ml-1">mad</span>
                     </div>
                   </div>
                   <div className="absolute inset-0 bg-green-500 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
@@ -492,7 +492,7 @@ function App() {
                                     {donation.name}
                                   </div>
                                   <div className="text-lg font-bold text-green-600">
-                                    ${donation.amount}
+                                    {donation.amount}<span className="text-sm ml-1">mad</span>
                                   </div>
                                 </div>
                               ))}
@@ -566,7 +566,7 @@ function App() {
                 </button>
               </div>
               <div className="text-2xl font-bold text-red-500 mb-6">
-                إجمالي النفقات: ${getTotalExpenses().toLocaleString()}
+                إجمالي النفقات: {getTotalExpenses().toLocaleString()}<span className="text-lg ml-1">mad</span>
               </div>
             </div>
 
@@ -679,7 +679,7 @@ function App() {
                             })}
                           </td>
                           <td className="px-6 py-4 text-lg font-bold text-red-600">
-                            ${expense.amount.toLocaleString()}
+                            {expense.amount.toLocaleString()}<span className="text-sm ml-1">mad</span>
                           </td>
                           <td className={`px-6 py-4 text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} leading-relaxed`}>
                             {expense.description}
