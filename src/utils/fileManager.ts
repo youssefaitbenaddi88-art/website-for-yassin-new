@@ -10,8 +10,8 @@ const GITHUB_CONFIG = {
 
 // GitHub Pages URLs for loading data
 const GITHUB_PAGES_URLS = {
-  donations: 'https://sayprob.github.io/website-for-yassin/src/data/donations.json',
-  expenses: 'https://sayprob.github.io/website-for-yassin/src/data/expenses.json',
+  donations: 'https://youssefaitbenaddi88-art.github.io/website-for-yassin-new/src/data/donations.json',
+  expenses: 'https://youssefaitbenaddi88-art.github.io/website-for-yassin-new/src/data/expenses.json',
 };
 
 // Get GitHub token from localStorage
