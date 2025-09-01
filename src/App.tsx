@@ -5,6 +5,7 @@ import { DonationData, Expense } from './types';
 import { loadDonationsFromFile, saveDonationsToFile, loadExpensesFromFile, saveExpensesToFile } from './utils/fileManager';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminPanel } from './components/AdminPanel';
+import { GitHubTokenSetup } from './components/GitHubTokenSetup';
 
 function App() {
   const [showYears, setShowYears] = useState(false);
@@ -315,6 +316,9 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* GitHub Token Setup */}
+      <GitHubTokenSetup isDarkMode={isDarkMode} />
 
       <div className="max-w-4xl w-full">
         {!showYears && selectedYear === null && !showExpenses ? (
