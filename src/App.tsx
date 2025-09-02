@@ -34,6 +34,21 @@ function App() {
     'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
   ];
 
+  const monthsEnglish = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const getMonthKeyVariations = (year: number, monthArabic: string) => {
+    const monthIndex = months.indexOf(monthArabic);
+    const monthEnglish = monthsEnglish[monthIndex];
+    
+    return [
+      `${year}-${monthArabic}`,
+      `${year}-${monthEnglish}`,
+    ];
+  };
+
   // Load data on component mount
   useEffect(() => {
     const loadData = async () => {
@@ -125,8 +140,8 @@ function App() {
     const year = parseInt(newYear);
     if (!isNaN(year) && year > 1900 && year <= 2100) {
       // Create a placeholder entry for the new year to make it appear in the list
-      const firstMonth = months[0];
-      const monthKey = `${year}-${firstMonth}`;
+      const firstMonthEnglish = monthsEnglish[0];
+      const monthKey = `${year}-${firstMonthEnglish}`;
       
       const updatedDonations = {
         ...donations,
@@ -145,7 +160,11 @@ function App() {
 
   const handleAddDonation = async (month: string) => {
     if (newDonorName.trim() && newDonorAmount.trim() && selectedYear) {
-      const monthKey = `${selectedYear}-${month}`;
+      // Use English month name for consistency with existing data
+      const monthIndex = months.indexOf(month);
+      const monthEnglish = monthsEnglish[monthIndex];
+      const monthKey = `${selectedYear}-${monthEnglish}`;
+      
       const amount = parseFloat(newDonorAmount);
       
       if (!isNaN(amount) && amount > 0) {
@@ -231,11 +250,15 @@ function App() {
 
   const getYearTotal = (year: number) => {
     let total = 0;
-    months.forEach(month => {
-      const monthKey = `${year}-${month}`;
-      const monthDonations = donations[monthKey] || [];
-      total += monthDonations.reduce((sum, donation) => sum + donation.amount, 0);
+    
+    // Check all possible month key variations for this year
+    Object.keys(donations).forEach(key => {
+      if (key.startsWith(`${year}-`)) {
+        const monthDonations = donations[key] || [];
+        total += monthDonations.reduce((sum, donation) => sum + donation.amount, 0);
+      }
     });
+    
     console.log(`Year ${year} total:`, total);
     return total;
   };
@@ -495,8 +518,27 @@ function App() {
                   <tbody>
                     <tr className="align-top">
                       {months.map(month => {
-                        const monthKey = `${selectedYear}-${month}`;
-                        const monthDonations = donations[monthKey] || [];
+                        // Try both Arabic and English month keys
+                        const monthKeyVariations = getMonthKeyVariations(selectedYear, month);
+                        let monthDonations: any[] = [];
+                        
+                        // Find donations for this month using any of the key variations
+                        for (const key of monthKeyVariations) {
+                          if (donations[key]) {
+                            monthDonations = donations[key];
+                            break;
+                          }
+                        }
+                        
+                        // Also check if there are any keys that contain this year and month
+                        Object.keys(donations).forEach(key => {
+                          if (key.includes(`${selectedYear}`) && 
+                              (key.includes(month) || key.includes(monthsEnglish[months.indexOf(month)]))) {
+                            if (donations[key] && donations[key].length > 0) {
+                              monthDonations = donations[key];
+                            }
+                          }
+                        });
                         
                         return (
                           <td key={month} className={`px-4 py-4 ${isDarkMode ? 'border-r border-slate-700' : 'border-r border-slate-100'} last:border-r-0`}>
