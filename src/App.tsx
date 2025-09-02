@@ -28,6 +28,7 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showAddYearForm, setShowAddYearForm] = useState(false);
   const [newYear, setNewYear] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false);
   
   const months = [
     'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -277,6 +278,47 @@ function App() {
     return donationsTotal - expensesTotal;
   };
 
+  const handleLoadFromGitHub = async () => {
+    setIsSyncing(true);
+    try {
+      console.log('Loading fresh data from GitHub Pages...');
+      const freshDonations = await loadDonationsFromFile();
+      const freshExpenses = await loadExpensesFromFile();
+      
+      setDonations(freshDonations);
+      setExpenses(freshExpenses);
+      
+      alert('تم تحميل البيانات من GitHub بنجاح!');
+    } catch (error) {
+      console.error('Failed to load from GitHub:', error);
+      alert('فشل في تحميل البيانات من GitHub. تحقق من الاتصال بالإنترنت.');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleSaveToGitHub = async () => {
+    const token = localStorage.getItem('github_token');
+    if (!token) {
+      alert('يجب إعداد رمز GitHub أولاً لحفظ البيانات.');
+      return;
+    }
+
+    setIsSyncing(true);
+    try {
+      console.log('Saving all data to GitHub...');
+      await saveDonationsToFile(donations);
+      await saveExpensesToFile(expenses);
+      
+      alert('تم حفظ جميع البيانات إلى GitHub بنجاح!');
+    } catch (error) {
+      console.error('Failed to save to GitHub:', error);
+      alert('فشل في حفظ البيانات إلى GitHub. تحقق من رمز الوصول والاتصال.');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const availableYears = getAvailableYears();
 
   if (isLoading) {
@@ -313,6 +355,32 @@ function App() {
 
       {/* Admin Controls */}
       <div className="fixed top-4 right-4 z-40 flex gap-2">
+        {/* Sync Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleLoadFromGitHub}
+            disabled={isSyncing}
+            className={`${isDarkMode ? 'bg-slate-700 hover:bg-slate-600 text-blue-400' : 'bg-slate-200 hover:bg-slate-300 text-blue-600'} px-3 py-2 rounded-lg shadow-lg transition-colors duration-200 flex items-center gap-2 text-sm`}
+            title="تحميل البيانات من GitHub"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            {isSyncing ? 'تحميل...' : 'تحميل'}
+          </button>
+          <button
+            onClick={handleSaveToGitHub}
+            disabled={isSyncing}
+            className={`${isDarkMode ? 'bg-slate-700 hover:bg-slate-600 text-green-400' : 'bg-slate-200 hover:bg-slate-300 text-green-600'} px-3 py-2 rounded-lg shadow-lg transition-colors duration-200 flex items-center gap-2 text-sm`}
+            title="حفظ البيانات إلى GitHub"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            {isSyncing ? 'حفظ...' : 'حفظ'}
+          </button>
+        </div>
+
         {/* Dark Mode Toggle */}
         <button
           onClick={toggleDarkMode}
