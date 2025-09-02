@@ -26,7 +26,7 @@ export const GitHubTokenSetup: React.FC<GitHubTokenSetupProps> = ({ isDarkMode }
     
     try {
       // Validate token by making a test API call
-      const response = await fetch('https://api.github.com/repos/sayprob/website-for-yassin', {
+      const response = await fetch('https://api.github.com/repos/sayprob/website-for-yassin/contents/src/data/donations.json', {
         headers: {
           'Authorization': `token ${token}`,
           'Accept': 'application/vnd.github.v3+json',

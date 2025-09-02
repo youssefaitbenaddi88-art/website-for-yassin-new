@@ -38,11 +38,13 @@ function App() {
   useEffect(() => {
     const loadData = async () => {
       try {
+        console.log('Starting to load data...');
         const data = await loadDonationsFromFile();
         const expensesData = await loadExpensesFromFile();
+        console.log('Loaded donations:', data);
+        console.log('Loaded expenses:', expensesData);
         setDonations(data);
         setExpenses(expensesData);
-        // Don't auto-show years anymore, start at main page
         
         // Check if user is already logged in as admin
         const adminStatus = localStorage.getItem('isAdmin');
@@ -53,6 +55,9 @@ function App() {
         setIsDarkMode(darkMode === 'true');
       } catch (error) {
         console.error('Failed to load donations:', error);
+        // Set empty data if loading fails
+        setDonations({});
+        setExpenses([]);
       } finally {
         setIsLoading(false);
       }
@@ -231,16 +236,22 @@ function App() {
       const monthDonations = donations[monthKey] || [];
       total += monthDonations.reduce((sum, donation) => sum + donation.amount, 0);
     });
+    console.log(`Year ${year} total:`, total);
     return total;
   };
 
   const getAllYearsTotal = () => {
     const years = getAvailableYears();
-    return years.reduce((total, year) => total + getYearTotal(year), 0);
+    const total = years.reduce((sum, year) => sum + getYearTotal(year), 0);
+    console.log('All years total:', total);
+    return total;
   };
 
   const getNetAmount = () => {
-    return getAllYearsTotal() - getTotalExpenses();
+    const donationsTotal = getAllYearsTotal();
+    const expensesTotal = getTotalExpenses();
+    console.log('Net calculation - Donations:', donationsTotal, 'Expenses:', expensesTotal);
+    return donationsTotal - expensesTotal;
   };
 
   const availableYears = getAvailableYears();

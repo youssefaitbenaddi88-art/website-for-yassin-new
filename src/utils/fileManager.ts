@@ -10,8 +10,8 @@ const GITHUB_CONFIG = {
 
 // GitHub Pages URLs for loading data
 const GITHUB_PAGES_URLS = {
-  donations: 'https://youssefaitbenaddi88-art.github.io/website-for-yassin-new/src/data/donations.json',
-  expenses: 'https://youssefaitbenaddi88-art.github.io/website-for-yassin-new/src/data/expenses.json',
+  donations: 'https://sayprob.github.io/website-for-yassin/src/data/donations.json',
+  expenses: 'https://sayprob.github.io/website-for-yassin/src/data/expenses.json',
 };
 
 // Get GitHub token from localStorage
@@ -54,8 +54,8 @@ export const loadDonationsFromFile = async (): Promise<DonationData> => {
   try {
     console.log('Loading donations from GitHub Pages...');
     
-    // Try to fetch fresh data from GitHub Pages
-    const response = await fetch(GITHUB_PAGES_URLS.donations, {
+    // Try to fetch fresh data from GitHub Pages with cache busting
+    const response = await fetch(`${GITHUB_PAGES_URLS.donations}?t=${Date.now()}`, {
       cache: 'no-cache',
       headers: {
         'Accept': 'application/json',
@@ -64,11 +64,12 @@ export const loadDonationsFromFile = async (): Promise<DonationData> => {
     
     if (response.ok) {
       const freshData = await response.json();
-      console.log('Successfully loaded donations from GitHub Pages');
+      console.log('Successfully loaded donations from GitHub Pages:', freshData);
       // Update localStorage with fresh data
       localStorage.setItem('donations', JSON.stringify(freshData, null, 2));
       return freshData as DonationData;
     } else {
+      console.warn(`GitHub Pages response not ok: ${response.status}`);
       throw new Error(`GitHub Pages response not ok: ${response.status}`);
     }
   } catch (error) {
@@ -84,6 +85,7 @@ export const loadDonationsFromFile = async (): Promise<DonationData> => {
     // Final fallback to local JSON file
     try {
       const { default: donationsData } = await import('../data/donations.json');
+      console.log('Using local donations data as fallback');
       return donationsData as DonationData;
     } catch (importError) {
       console.error('All fallbacks failed for donations:', importError);
@@ -97,8 +99,8 @@ export const loadExpensesFromFile = async (): Promise<Expense[]> => {
   try {
     console.log('Loading expenses from GitHub Pages...');
     
-    // Try to fetch fresh data from GitHub Pages
-    const response = await fetch(GITHUB_PAGES_URLS.expenses, {
+    // Try to fetch fresh data from GitHub Pages with cache busting
+    const response = await fetch(`${GITHUB_PAGES_URLS.expenses}?t=${Date.now()}`, {
       cache: 'no-cache',
       headers: {
         'Accept': 'application/json',
@@ -107,11 +109,12 @@ export const loadExpensesFromFile = async (): Promise<Expense[]> => {
     
     if (response.ok) {
       const freshData = await response.json();
-      console.log('Successfully loaded expenses from GitHub Pages');
+      console.log('Successfully loaded expenses from GitHub Pages:', freshData);
       // Update localStorage with fresh data
       localStorage.setItem('expenses', JSON.stringify(freshData, null, 2));
       return freshData as Expense[];
     } else {
+      console.warn(`GitHub Pages response not ok: ${response.status}`);
       throw new Error(`GitHub Pages response not ok: ${response.status}`);
     }
   } catch (error) {
@@ -127,6 +130,7 @@ export const loadExpensesFromFile = async (): Promise<Expense[]> => {
     // Final fallback to local JSON file
     try {
       const { default: expensesData } = await import('../data/expenses.json');
+      console.log('Using local expenses data as fallback');
       return expensesData as Expense[];
     } catch (importError) {
       console.error('All fallbacks failed for expenses:', importError);
